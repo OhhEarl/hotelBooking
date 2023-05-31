@@ -107,4 +107,10 @@ class RoomtypeController extends Controller
         RoomType::where('id', $id)->delete();
         return redirect('admin/roomtype')->with('success', 'Data deleted successfully');
     }
+
+    public function destroy_image($img_id)
+    {
+        Roomtypeimage::where('id', $img_id)->delete();
+      return response()->json(['boolean'=>true]);
+    }
 }
