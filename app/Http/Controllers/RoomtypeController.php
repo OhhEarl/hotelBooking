@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\RoomType;
 use App\Models\Roomtypeimage;
-
+use Illuminate\Support\Facades\Storage;
 
 class RoomtypeController extends Controller
 {
@@ -95,7 +95,18 @@ class RoomtypeController extends Controller
         $data->price = $request->price;
         $data->detail = $request->detail;
         $data->save();
-       
+
+        if($request->hasFile('imgs')){
+        foreach($request->file('imgs') as $img){
+            $imgpath = $img->store('imgs');
+            $imgData = new Roomtypeimage();
+            $imgData->room_type_id = $data->id;
+            $imgData->img_src=  $imgpath;
+            $imgData->img_alt= $request->title;
+            $imgData->save();
+        }
+        }
+
         return redirect('admin/roomtype/'.$id.'/edit')->with('success', 'Data edited successfully');
     }
 
@@ -108,9 +119,15 @@ class RoomtypeController extends Controller
         return redirect('admin/roomtype')->with('success', 'Data deleted successfully');
     }
 
-    public function destroy_image($img_id)
+
+    public function destroy_image($id)
     {
-        Roomtypeimage::where('id', $img_id)->delete();
-      return response()->json(['boolean'=>true]);
+            $data = Roomtypeimage::where('id', $id)->first();
+            Storage::delete(public_path('storage/app/public/'. $data));
+
+            
+
+              Roomtypeimage::where('id', $id)->delete();
+             return response()->json(['bool'=>true]);
     }
 }
