@@ -34,7 +34,7 @@
                     <tr>
                         <th>Select Department</th>
                         <td>
-                            <select name="department_id"class="form-control" name="" id="">
+                            <select name="department_id"class="form-control" id="">
                                 <option value="0">Select Department</option>
                                 @foreach($departs as $dp)
                                 <option value="{{$dp->id}}">{{ $dp->title }}</option>

@@ -45,10 +45,12 @@
                         <td><img width="100" src="{{asset('storage/'.$d->photo)}}" alt=""></td>
                         <td>{{$d->department->title}}</td>
                         <td>
-                            <a href="{{url('admin/staff/'.$d->id)}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                            <a href="{{url('admin/staff/'.$d->id).'/edit'}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
-                            <a onclick=" return confirm('Are you sure you want to delete this data?')" href="{{url('admin/staff/'.$d->id).'/delete'}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                        </td>
+                                                    <a href="{{url('admin/staff/'.$d->id)}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                                    <a href="{{url('admin/staff/'.$d->id).'/edit'}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
+                                                    <a href="{{url('admin/staff/payments/'.$d->id)}}" class="btn btn-dark btn-sm"><i class="fa fa-credit-card"></i></a>
+                                                    <a onclick="return confirm('Are you sure to delete this data?')" href="{{url('admin/staff/'.$d->id).'/delete'}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                                </td>
+                       
                     </tr>  
                     @endforeach
                     @endif
