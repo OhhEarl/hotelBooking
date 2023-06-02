@@ -24,13 +24,13 @@
         @endforeach
         
         <div class="table-responsive">
-            <form method="POST" enctype="multipart/form-data" action="{{url('admin/customer')}}">
+            <form method="POST" enctype="multipart/form-data" action="{{url('admin/booking')}}">
                 @csrf
                 <table class="table table-bordered">
                     <tr>
-                        <th>Select Customer</th>
+                        <th>Select Customer <span class="text-danger">*</span></th>
                         <td>
-                            <select class="form-control">
+                            <select class="form-control" name="customer_id" >
                                 <option value="">---Select Customer---</option>
                                 @foreach($data as $customer)
                                 <option value="{{$customer->id}}">{{$customer->full_name}}</option>
@@ -49,7 +49,7 @@
                     <tr>
                         <th>Available Rooms<span class="text-danger">*</span></th>
                         <td>
-                            <select class="form-control room">
+                            <select class="form-control room-list" name="room_id">
                               
                             </select>
                         </td>
@@ -82,12 +82,19 @@
         $(document).ready(function(){
             $(".checkin-date").on('blur', function(){
                 var _checkindate = $(this).val();
-
+    
                 $.ajax({
-                    url: "url{{'admin/booking'}}/"+ _checkindate,
+                    url: "{{url('admin/booking')}}/available-rooms/"+ _checkindate,
                     dataType: 'json',
+                    beforeSend:function(){
+                        $(".room-list").html('<option>---Loading---</option>');
+                    },
                     success:function(res){
-                        console.log(res);
+                        var _html='';
+                        $.each(res.data, function(index, row){
+                            _html+='<option value="'+row.id+'">'+row.title+'</option>';
+                        });
+                        $(".room-list").html(_html);
                     }
                 });
 

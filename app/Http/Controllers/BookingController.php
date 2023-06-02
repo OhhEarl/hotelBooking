@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -29,7 +31,26 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'customer_id' =>'required',
+            'room_id' =>'required',
+            'checkin_date' =>'required|min:4|max:16',
+            'checkout_date' =>'required',
+            'total_adults' =>'required',
+            'total_children' =>'required',
+        ]);
+
+      
+        $data = new Booking();
+        $data->customer_id = $request->customer_id;
+        $data->room_id = $request->room_id;
+        $data->checkin_date = $request->checkin_date;
+        $data->checkout_date = $request->checkout_date;
+        $data->total_adults = $request->total_adults;
+        $data->total_children = $request->total_children;
+        $data->save();
+
+        return redirect('admin/booking/create')->with('success', 'Data saved successfully');
     }
 
     /**
@@ -67,9 +88,9 @@ class BookingController extends Controller
     // Check availability of the rooms
 
     function available_rooms(Request $request , $checkin_date){
-
-        return response()->json($checkin_date);
-    
+        $arooms = DB::SELECT("SELECT * FROM rooms WHERE id NOT IN 
+        (SELECT room_id FROM bookings WHERE '$checkin_date' BETWEEN checkin_date and checkout_date)");
+        return response()->json(['data'=>$arooms]);   
     }
 
 

@@ -8,6 +8,7 @@ use App\http\Controllers\CustomerController;
 use App\http\Controllers\StaffDepartment;
 use App\http\Controllers\StaffControler;
 use App\http\Controllers\BookingController;
+use App\http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,7 @@ use App\http\Controllers\BookingController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'home']);
 
 //Admin Login
 Route::get('admin/login', [AdminController::class, 'login']);
@@ -30,9 +29,8 @@ Route::post('admin/login', [AdminController::class, 'check_login']);
 Route::get('admin/logout', [AdminController::class, 'logout']);
 
 //Admin Dashboard
-Route::get('admin', function () {
-    return view('dashboard');
-});
+
+Route::get('admin', [AdminController::class, 'dashboard']);
 
 //RoomType Routes
 Route::get('admin/roomtype/{id}/delete', [RoomtypeController::class, 'destroy']);
