@@ -7,6 +7,7 @@ use App\http\Controllers\RoomController;
 use App\http\Controllers\CustomerController;
 use App\http\Controllers\StaffDepartment;
 use App\http\Controllers\StaffControler;
+use App\http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +64,8 @@ Route::resource('admin/staff',StaffControler::class);
 
 //Delete Image
 Route::get('admin/roomtypeimage/delete/{id}',[RoomtypeController::class,'destroy_image']);
+
+//Booking
+Route::get('admin/booking/{id}/delete', [BookingController::class, 'destroy']);
+Route::get('admin/booking/available-rooms/{checkin_date}', [BookingController::class, 'available_rooms']);
+Route::resource('admin/booking',BookingController::class);

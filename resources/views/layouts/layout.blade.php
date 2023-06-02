@@ -141,7 +141,12 @@
                 </div>
             </li>
 
-
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('admin/booking/create')}}">
+                    <i class="fas fa-fw fa-hotel"></i>
+                    <span>Booking</span></a>
+            </li>
+            
 
             <!-- Logout -->
             <li class="nav-item">
