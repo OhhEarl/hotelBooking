@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\RoomType;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
@@ -50,7 +51,11 @@ class BookingController extends Controller
         $data->total_children = $request->total_children;
         $data->save();
 
+        if($request->ref=='front'){
+            return redirect('booking')->with('success', 'Booking has been successfully created.');
+        }
         return redirect('admin/booking/create')->with('success', 'Data saved successfully');
+       
     }
 
     /**
@@ -87,11 +92,24 @@ class BookingController extends Controller
 
     // Check availability of the rooms
 
-    function available_rooms(Request $request , $checkin_date){
-        $arooms = DB::SELECT("SELECT * FROM rooms WHERE id NOT IN 
-        (SELECT room_id FROM bookings WHERE '$checkin_date' BETWEEN checkin_date and checkout_date)");
-        return response()->json(['data'=>$arooms]);   
+    function available_rooms(Request $request,$checkin_date){
+        $arooms=DB::SELECT("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM bookings WHERE '$checkin_date' BETWEEN checkin_date AND checkout_date)");
+
+        $data=[];
+
+        foreach($arooms as $room){
+            $roomTypes=RoomType::find($room->room_type_id);
+            $data[]=['room'=>$room, 'roomtype'=>$room];
+        }
+
+
+        return response()->json(['data'=> $data]);
     }
+
+    function front_booking(){
+        return view('front-booking');
+    }
+
 
 
 

@@ -37,19 +37,23 @@ class CustomerController extends Controller
             'password' =>'required|min:4|max:16',
             'mobile' =>'required',
             'address' =>'required',
-            'photo' =>'required',
         ]);
 
-        $imagepath = $request->file('photo')->store('public/photo');
+        // $imagepath = $request->file('photo')->store('public/photo');
 
         $data = new Customer();
         $data->full_name = $request->full_name;
         $data->email = $request->email;
         $data->password = md5($request->password);
         $data->mobile_number = $request->mobile;
-        $data->photo = $imagepath;
+        // $data->photo = $imagepath;
         $data->address = $request->address;
         $data->save();
+
+        $ref = $request->ref;
+        if($ref=='front'){
+            return redirect('register')->with('success', 'Registration Success');
+        }
 
         return redirect('admin/customer/create')->with('success', 'Data saved successfully');
     }
@@ -116,4 +120,49 @@ class CustomerController extends Controller
         Customer::where('id', $id)->delete();
         return redirect('admin/customer')->with('success', 'Data deleted successfully');
     }
+
+    //Login
+
+    function login(){
+        return view('customerLogin');
+    }
+
+    //Register
+    function register(){
+        return view('register');
+    }
+
+    //Customer Login
+    function customer_login(Request $request){
+
+    $request->validate([
+        'email' =>'required',
+        'password' =>'required',
+    ]);
+
+    $admin = Customer::where([
+        'email'=>$request->email,
+        'password'=>md5($request->password)
+    ])->count();
+
+    if($admin>0){
+        $admin = Customer::where([
+            'email'=>$request->email,
+            'password'=>md5($request->password)
+        ])->get();
+        session(['customerLogin'=>true, 'data'=>$admin]);
+
+        return redirect('/');
+    }else{
+        return redirect('login')->with('error','Invalid email/password!!');
+    }
+}
+
+function logout(){
+  
+    session()->forget(['customerLogin']);
+    return redirect('/');
+}
+
+
 }
