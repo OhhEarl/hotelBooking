@@ -76,7 +76,15 @@
                 </div>
                 <!-- /.container-fluid -->
 
-@section('scripts')
+                <script src="  {{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+
+
+<script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $(".checkin-date").on('blur',function(){
@@ -110,6 +118,6 @@
 
     });
 </script>
-@endsection
+
 
 @endsection

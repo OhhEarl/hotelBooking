@@ -51,6 +51,12 @@ class BookingController extends Controller
         $data->checkout_date = $request->checkout_date;
         $data->total_adults = $request->total_adults;
         $data->total_children = $request->total_children;
+    if($request->ref=='front'){
+        $data->ref = 'front';
+    }else{
+        $data->ref = 'admin';
+    };
+
         $data->save();
 
         if($request->ref=='front'){
@@ -119,8 +125,8 @@ class BookingController extends Controller
     }
 
     // Check availability of the rooms
-
-    function available_rooms(Request $request,$checkin_date){
+    }
+    function available_rooms($checkin_date){
         $arooms=DB::SELECT("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM bookings WHERE '$checkin_date' BETWEEN checkin_date AND checkout_date)");
 
         $data=[];
@@ -156,4 +162,4 @@ class BookingController extends Controller
 }
 
 
-}
+
