@@ -1,7 +1,7 @@
 @extends('layouts/layout')
 @section('content')
-
-
+<!-- Begin Page Content -->
+             
 <div class="container-fluid">
 
 
@@ -66,5 +66,5 @@
 </div>
 
 </div>
-
 @endsection
+

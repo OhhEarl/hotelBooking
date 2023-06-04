@@ -74,5 +74,8 @@ Route::get('register', [CustomerController::class, 'register']);
 Route::get('logout', [CustomerController::class, 'logout']);
 
 //Booking
-Route::get('booking', [BookingController::class, 'front_booking']);
+Route::get('booking',[BookingController::class,'front_booking']);;
+Route::get('booking/success',[BookingController::class,'booking_payment_success']);
+Route::get('booking/fail',[BookingController::class,'booking_payment_fail']);
+
 
